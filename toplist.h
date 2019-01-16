@@ -31,7 +31,7 @@ public:
 	const char *GetName() { return "Toplist"; }
 	const char *GetDescription() { return "Global toplist."; }
 	const char *GetURL() { return ""; }
-	const char *GetLicense() { return "Closed source"; }
+	const char *GetLicense() { return "GPLv3"; }
 	const char *GetVersion() { return TOPLIST_VERSION; }
 	const char *GetDate() { return __DATE__; }
 	const char *GetLogTag() { return "TL"; }
