@@ -1,7 +1,7 @@
 #ifndef TOPLIST_H_
 #define TOPLIST_H_
 
-#define TOPLIST_VERSION "0.7.2"
+#define TOPLIST_VERSION "0.8.0"
 #define TOPLIST_IP "http://127.0.0.1/toplist/"
 
 #include <iostream>
@@ -80,6 +80,7 @@ private:
 	std::string currentMap;
 	int m_CurrentPlayers = 0;
 	std::vector<s_Players> m_Players;
+	bool loadCustomCvar;
 
 };
 
