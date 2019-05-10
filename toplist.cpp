@@ -38,6 +38,15 @@ bool Toplist::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool 
 	char iface_buffer[255];
 	int num = 0;
 
+	loadCustomCvar = !!(LOADINTERFACE("vstdlib.dll", CVAR_INTERFACE_VERSION, cvar)); // get the interface for customCvar.
+	if (loadCustomCvar) {
+		META_LOG(g_PLAPI, "vstdlib interface loaded.");
+	}else {
+		META_LOG(g_PLAPI, "vstdlib interface failed to load.");
+		return false;
+	}
+
+
 		strcpy(iface_buffer, INTERFACEVERSION_SERVERGAMEDLL);
 	FIND_IFACE(GetServerFactory, m_ServerDll, num, iface_buffer, IServerGameDLL *)
 		strcpy(iface_buffer, INTERFACEVERSION_VENGINESERVER);
@@ -80,6 +89,8 @@ void Toplist::AllPluginsLoaded() {
 	m_GameEventManager->AddListener(this, "player_stoptimer", true);
 	m_GameEventManager->AddListener(this, "player_stoptimer2", true);
 
+
+	
 }
 
 bool Toplist::OnLevelInit(char const *pMapName,char const *pMapEntities,char const *pOldLevel,char const *pLandmarkName,bool loadGame,bool background) {
@@ -259,19 +270,16 @@ const char *Toplist::getCourse(IGameEvent *event) {
 	delete[] tmp;
 
 	ConVar* foundCvar;
-	bool loadCustomCvar = !!(LOADINTERFACE("vstdlib.dll", CVAR_INTERFACE_VERSION, cvar)); // get the interface for customCvar. 
+	 
+	foundCvar = cvar->FindVar(courseName); // find the variable
 
-	if (loadCustomCvar) // check if it found the interface
-	{
-		foundCvar = cvar->FindVar(courseName); // find the variable
-
-		if (foundCvar) {
-			strcpy(courseName, foundCvar->GetString());
-		}
-		else {
-			strcpy(courseName, event->GetString("coursename"));
-		}
+	if (foundCvar) {
+		strcpy(courseName, foundCvar->GetString());
 	}
+	else {
+		strcpy(courseName, event->GetString("coursename"));
+	}
+	
 
 	return courseName;
 }
