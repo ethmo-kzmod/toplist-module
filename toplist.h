@@ -1,7 +1,8 @@
 #ifndef TOPLIST_H_
 #define TOPLIST_H_
 
-#define TOPLIST_VERSION "0.6.1"
+#define TOPLIST_VERSION "0.7.2"
+#define TOPLIST_IP "http://127.0.0.1/toplist/"
 
 #include <iostream>
 #include <vector>
@@ -29,8 +30,8 @@ public:
 
 	const char *GetAuthor() { return "Menko"; }
 	const char *GetName() { return "Toplist"; }
-	const char *GetDescription() { return "Global toplist."; }
-	const char *GetURL() { return ""; }
+	const char *GetDescription() { return "KZMOD Toplist and rank system."; }
+	const char *GetURL() { return TOPLIST_IP; }
 	const char *GetLicense() { return "GPLv3"; }
 	const char *GetVersion() { return TOPLIST_VERSION; }
 	const char *GetDate() { return __DATE__; }
@@ -57,7 +58,7 @@ public:
 	// WebRequests
 	bool registerMap();
 	bool registerPlayer(std::string steamid, std::string player);
-	bool addRecord(std::string mapName, std::string courseName, std::string steamID,std::string playerName, int seconds, int miliseconds, int checkpoints, int teleports);
+	bool addRecord(std::string mapName, const char *courseName, std::string steamID,std::string playerName, int seconds, int miliseconds, int checkpoints, int teleports);
 
 
 	void Hook_ClientCommand(edict_t *pEntity, const CCommand &args);
