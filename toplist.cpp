@@ -1,3 +1,5 @@
+
+
 #include "toplist.h"
 
 #define	FIND_IFACE(func, assn_var, num_var, name, type) \
@@ -38,6 +40,10 @@ bool Toplist::Load(PluginId id, ISmmAPI *ismm, char *error, size_t maxlen, bool 
 	char iface_buffer[255];
 	int num = 0;
 
+	//load server ip
+	m_ToplistIP = getToplistIP();
+
+	// load interface
 	loadCustomCvar = !!(LOADINTERFACE("vstdlib.dll", CVAR_INTERFACE_VERSION, cvar)); // get the interface for customCvar.
 	if (loadCustomCvar) {
 		META_LOG(g_PLAPI, "vstdlib interface loaded.");
@@ -103,8 +109,7 @@ bool Toplist::OnLevelInit(char const *pMapName,char const *pMapEntities,char con
 
 bool Toplist::registerMap() {
 	try {
-		std::string s(TOPLIST_IP);
-		http::Request request(s + "mapregistration.php");
+		http::Request request(m_ToplistIP + "mapregistration.php");
 		http::Response response;
 
 		// send a post request
@@ -125,8 +130,7 @@ bool Toplist::registerMap() {
 
 bool Toplist::registerPlayer(std::string steamid, std::string player) {
 	try {
-		std::string s(TOPLIST_IP);
-		http::Request request(s + "registerplayer.php");
+		http::Request request(m_ToplistIP + "registerplayer.php");
 		http::Response response;
 
 		// send a post request
@@ -148,8 +152,7 @@ bool Toplist::registerPlayer(std::string steamid, std::string player) {
 bool Toplist::addRecord(std::string mapName, const char *courseName, std::string steamID, std::string playerName, int seconds, int miliseconds, int checkpoints, int teleports) {
 
 	try {
-		std::string s(TOPLIST_IP);
-		http::Request request(s + "addrecord.php");
+		http::Request request(m_ToplistIP + "addrecord.php");
 		http::Response response;
 
 		// send a post request
@@ -282,4 +285,35 @@ const char *Toplist::getCourse(IGameEvent *event) {
 	
 
 	return courseName;
+}
+
+std::string Toplist::getToplistIP() {
+	std::ifstream info;
+	std::string line;
+	std::smatch match;
+	std::regex rgx("TOPLIST_IP (http://[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/toplist/)");
+	std::string ip;
+
+	info.open("kz/addons/metamod/toplist/info.txt");
+	if (info.good())
+	{
+		while (getline(info, line))
+		{
+			if (std::regex_search(line, match, rgx))
+			{
+				ConMsg("\nRegex: %s\n", match.str(1));
+				ip = match.str(1);
+			}
+			else {
+				ConMsg("\n[TOPLIST ERROR] Invalid adress form in info file.\n");
+				ip = "Invalid.";
+			}
+		}
+	}
+	else {
+		ConMsg("\n[TOPLIST ERROR] Failed to open file\n");
+	}
+	info.close();
+
+	return ip;
 }
