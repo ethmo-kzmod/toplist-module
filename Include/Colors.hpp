@@ -1,0 +1,23 @@
+#ifndef COLOR_HPP
+#define COLOR_HPP
+
+
+#define WHITE 0xFFFFFF
+#define DARKRED 0xFE0000
+#define PURPLE 0xB980EF
+#define GREEN 0xBEFE8F
+#define MOSSGREEN 0x40FE40
+#define LIMEGREEN 0xA1FE47
+#define RED 0xFE4040
+#define GRAY 0xC4C9CF
+#define YELLOW 0xECE37A
+#define ORANGE 0xE3AD39
+#define DARKGREY 0xAFC2D8 //grey2?
+#define BLUE 0x5E97D8
+#define DARKBLUE 0x4B69FE
+#define LIGHTBLUE 0xAFC2D8 //bluegrey?
+#define PINK 0xFF00FF
+#define LIGHTRED 0xEA4B4B
+
+
+#endif // !COLOR_HPP
