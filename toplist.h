@@ -1,7 +1,7 @@
 #ifndef TOPLIST_H_
 #define TOPLIST_H_
 
-#define TOPLIST_VERSION "1.0.0"
+#define TOPLIST_VERSION "0.9.4"
 
 #include <iostream>
 #include <memory>
